@@ -71,8 +71,13 @@ module Main{
                 var vs = data.myShader.vertex;
                 var fs = data.myShader.fragment;
                 var tex = THREE.ImageUtils.loadTexture('textures/checker.png');
-
                 var uniforms = {
+                    OpticalCenter: { type: "v2", value: new THREE.Vector2( 0.4939155, 0.5298627 ) },
+                    FCoff: { type: "v2", value: new THREE.Vector2( 0.5459919,0.97142231 ) },
+                    KCoff: {
+                        type: 'v4',
+                        value: new THREE.Vector4( -0.26265967,0.11121539,-0.00042497579,-0.00015385781 )
+                    },
                     texture1 : { type : "t", value: tex },
                     edgeColor: {
                         type: 'v4',

@@ -1,11 +1,11 @@
 uniform sampler2D texture1;
+uniform vec2 OpticalCenter;
+uniform vec2 FCoff;
+uniform vec4 KCoff;
 
 varying vec2 vUv;
 
 void main() {
-    vec2 OpticalCenter = vec2(0.4939155, 0.5298627);
-    vec2 FCoff = vec2(0.5459919,0.97142231);
-    vec4 KCoff = vec4(-0.26265967,0.11121539,-0.00042497579,-0.00015385781);
     vec2 xy = (vUv - OpticalCenter) / FCoff;
 
     float r=sqrt(dot(xy,xy));
