@@ -44,8 +44,8 @@ var Main;
         };
         Main.prototype._initCamera = function () {
             this._camera = new THREE.PerspectiveCamera(45, this._canvasFrame.clientWidth / this._canvasFrame.clientHeight, 1, 10000);
-            this._camera.position.set(50, 50, 100);
-            this._camera.up.set(0, 0, 1);
+            this._camera.position.set(0, 0, 30);
+            this._camera.up.set(0, 1, 0);
             this._camera.lookAt({ x: 0, y: 0, z: 0 });
         };
         Main.prototype._initLight = function () {
@@ -58,14 +58,25 @@ var Main;
             SHADER_LOADER.load(function (data) {
                 var vs = data.myShader.vertex;
                 var fs = data.myShader.fragment;
+                var tex = THREE.ImageUtils.loadTexture('textures/checker.png');
+                var uniforms = {
+                    texture1: { type: "t", value: tex },
+                    edgeColor: {
+                        type: 'v4',
+                        value: new THREE.Vector4(0, 0, 0, 0)
+                    },
+                    edge: {
+                        type: 'i',
+                        value: true
+                    }
+                };
                 _this._shader = new THREE.ShaderMaterial({
-                    wireframe: true,
                     vertexShader: vs,
                     fragmentShader: fs,
-                    uniforms: _this._uniforms,
+                    uniforms: uniforms,
                     attributes: _this._attributes
                 });
-                var geometry = new THREE.CubeGeometry(20, 20, 20);
+                var geometry = new THREE.CubeGeometry(500, 500, 20);
                 var material2 = new THREE.MeshLambertMaterial({ color: 0x00FF00 });
                 _this._cube2 = new THREE.Mesh(geometry, _this._shader);
                 _this._scene.add(_this._cube2);
@@ -77,8 +88,8 @@ var Main;
             this._axis.position.set(0, 0, 0);
             var geometry = new THREE.CubeGeometry(20, 20, 20);
             var material = new THREE.MeshLambertMaterial({ color: 0xFF0000 });
-            this._cube = new THREE.Mesh(geometry, material);
-            this._scene.add(this._cube);
+            //this._cube = new THREE.Mesh(geometry, material);
+            //this._scene.add(this._cube);
         };
         Main.prototype._draw = function () {
             this._renderer.clear();

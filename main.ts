@@ -55,8 +55,8 @@ module Main{
                 this._canvasFrame.clientWidth / this._canvasFrame.clientHeight,
                 1,
                 10000);
-            this._camera.position.set(50, 50, 100);
-            this._camera.up.set(0, 0, 1);
+            this._camera.position.set(0, 0, 30);
+            this._camera.up.set(0, 1, 0);
             this._camera.lookAt(<THREE.Vector3>{x: 0, y: 0, z: 0});
         }
 
@@ -70,16 +70,28 @@ module Main{
             SHADER_LOADER.load((data)=>{
                 var vs = data.myShader.vertex;
                 var fs = data.myShader.fragment;
+                var tex = THREE.ImageUtils.loadTexture('textures/checker.png');
+
+                var uniforms = {
+                    texture1 : { type : "t", value: tex },
+                    edgeColor: {
+                        type: 'v4',
+                        value: new THREE.Vector4(0, 0, 0, 0)
+                    },
+                    edge: {
+                        type: 'i',
+                        value: true
+                    }
+                };
 
                 this._shader = new THREE.ShaderMaterial({
-                    wireframe: true,
                     vertexShader: vs,
                     fragmentShader: fs,
-                    uniforms: this._uniforms,
+                    uniforms: uniforms,
                     attributes: this._attributes
                 });
 
-                var geometry = new THREE.CubeGeometry(20, 20, 20);
+                var geometry = new THREE.CubeGeometry(500, 500, 20);
                 var material2 = new THREE.MeshLambertMaterial({ color: 0x00FF00 });
                 this._cube2 = new THREE.Mesh(geometry, this._shader);
                 this._scene.add(this._cube2);
@@ -92,8 +104,8 @@ module Main{
             this._axis.position.set(0, 0, 0);
             var geometry = new THREE.CubeGeometry(20, 20, 20);
             var material = new THREE.MeshLambertMaterial({ color: 0xFF0000 });
-            this._cube = new THREE.Mesh(geometry, material);
-            this._scene.add(this._cube);
+            //this._cube = new THREE.Mesh(geometry, material);
+            //this._scene.add(this._cube);
         }
 
         private _draw(){
